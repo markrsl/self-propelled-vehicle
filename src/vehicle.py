@@ -109,7 +109,9 @@ def left4motor():
     GPIO.output(motor_LeftRear_in4, True)
 def main():
     try:
-        left4motor()
+        while True:
+            left4motor()
+            print("turn left")
 #         while True:
 #             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
 #             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
