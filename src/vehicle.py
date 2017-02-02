@@ -66,6 +66,7 @@ def forward():
 
 def backward():
     stop()
+    time.sleep(0.1)
     GPIO.output(motor_RightFront_in1, True)
     GPIO.output(motor_RightFront_in2, False)
     GPIO.output(motor_RightRear_in3, True)
@@ -128,8 +129,10 @@ def main():
             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
-            if dforward < 50:
+            if dforward < 30:
                 flag = 0
+                if dforward <10:
+                    backward()
                 if dLeft >= dRight:
                     left4WD()
                 elif dLeft < dRight:
