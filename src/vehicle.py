@@ -24,25 +24,25 @@ GPIO.setup(ultrasound_Right_TRIG, GPIO.OUT)
 GPIO.setup(ultrasound_Right_ECHO, GPIO.IN)
 
 def ultrasound(TRIG,ECHO):
-    while True:
-        GPIO.output(TRIG, 0)
-        time.sleep(0.01)
-    
-        GPIO.output(TRIG, 1)
-        time.sleep(0.00001)
-        GPIO.output(TRIG, 0)
-    
+#    GPIO.output(TRIG, 0)
+#    time.sleep(0.01)
+
+    GPIO.output(TRIG, 1)
+#    time.sleep(0.00001)
+    GPIO.output(TRIG, 0)
+#    start = time.time()
+    while GPIO.input(ECHO) == 0:
         start = time.time()
-        while GPIO.input(ECHO) == 0:
-            start = time.time()
-        while GPIO.input(ECHO) == 1:
-            stop = time.time()
-        distance = (stop - start) * 34000 / 2
-        print(distance)
+    while GPIO.input(ECHO) == 1:
+        stop = time.time()
+    distance = (stop - start) * 34000 / 2
+    print(distance)
 
 def main():
     try:
         ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+        ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+        ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
     except KeyboardInterrupt:
         GPIO.cleanup()
 if __name__ == '__main__':
