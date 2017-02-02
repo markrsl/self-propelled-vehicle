@@ -101,24 +101,32 @@ def right():
 
 def main():
     try:
-        while True:
-            dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-            dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-            dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
-            print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
-            if dforward < 50:
-                flag = 0
-                if dLeft >= dRight:
-                    left()
-                elif dLeft < dRight:
-                    right()
-                else:
-                    print('seriously????')
-            else:
-                flag = 1
-                print('flag=1, Keep moving!')
-            if flag == 1:
-                forward()
+        GPIO.output(motor_RightFront_in1, False)
+        GPIO.output(motor_RightFront_in2, True)
+        GPIO.output(motor_RightRear_in3, False)
+        GPIO.output(motor_RightRear_in4, True)
+        GPIO.output(motor_LeftFront_in1, False)
+        GPIO.output(motor_LeftFront_in2, True)
+        GPIO.output(motor_LeftRear_in3, False)
+        GPIO.output(motor_LeftRear_in4, True)
+#         while True:
+#             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+#             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+#             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+#             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
+#             if dforward < 50:
+#                 flag = 0
+#                 if dLeft >= dRight:
+#                     left()
+#                 elif dLeft < dRight:
+#                     right()
+#                 else:
+#                     print('seriously????')
+#             else:
+#                 flag = 1
+#                 print('flag=1, Keep moving!')
+#             if flag == 1:
+#                 forward()
     except KeyboardInterrupt:
         print('Bye')
     finally:
