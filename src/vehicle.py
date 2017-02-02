@@ -98,17 +98,18 @@ def right():
     GPIO.output(motor_LeftFront_in2, False)
     GPIO.output(motor_LeftRear_in3, True)
     GPIO.output(motor_LeftRear_in4, False)
-
+def left4motor():
+    GPIO.output(motor_RightFront_in1, False)
+    GPIO.output(motor_RightFront_in2, True)
+    GPIO.output(motor_RightRear_in3, False)
+    GPIO.output(motor_RightRear_in4, True)
+    GPIO.output(motor_LeftFront_in1, False)
+    GPIO.output(motor_LeftFront_in2, True)
+    GPIO.output(motor_LeftRear_in3, False)
+    GPIO.output(motor_LeftRear_in4, True)
 def main():
     try:
-        GPIO.output(motor_RightFront_in1, False)
-        GPIO.output(motor_RightFront_in2, True)
-        GPIO.output(motor_RightRear_in3, False)
-        GPIO.output(motor_RightRear_in4, True)
-        GPIO.output(motor_LeftFront_in1, False)
-        GPIO.output(motor_LeftFront_in2, True)
-        GPIO.output(motor_LeftRear_in3, False)
-        GPIO.output(motor_LeftRear_in4, True)
+        left4motor()
 #         while True:
 #             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
 #             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
