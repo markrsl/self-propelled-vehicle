@@ -129,22 +129,29 @@ def main():
             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
+            
             if dforward < 50:
                 flag = 0
                 if dLeft >= dRight:
                     left4WD()
                 elif dLeft < dRight:
                     right4WD()
-                else:
-                    print('seriously????')
             else:
                 flag = 1
-                print('flag=1, Keep moving!')
-            if dLeft < 10:
+
+            if dLeft < 10 and dforward > 50:
+                flag = 0
                 right4WD()
-            if dRight < 10:
+            elif dLeft > 10 and dforward > 50:
+                flag = 1
+            
+            if dRight < 10 and dforward > 50:
                 left4WD()
+            elif dRight > 10 and dforward > 50:
+                flag = 1
+
             if flag == 1:
+                print('flag=1, Keep moving!')
                 forward()
     except KeyboardInterrupt:
         print('Bye')
