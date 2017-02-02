@@ -4,6 +4,7 @@ Created on 2017/2/2
 '''
 import time
 import RPi.GPIO as GPIO
+from curses.ascii import DLE
 
 # Physical numbering
 GPIO.setmode(GPIO.BOARD)
@@ -122,6 +123,8 @@ def right4WD():
     GPIO.output(motor_LeftRear_in3, True)
     GPIO.output(motor_LeftRear_in4, False)
     
+dSafeForward = 50
+dSafeSide = 10
 def main():
     try:
         while True:
@@ -130,29 +133,25 @@ def main():
             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
             
-            if dforward < 50:
-                flag = 0
+            if dforward < dSafeForward and dLeft < dSafeSide and dRight < dSafeSide:
+                stop()
+                print("Here is not safe!!!")
+            elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
+                right4WD()
+                print("Turn RIGHT!!!")
+            elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
+                left4WD()
+                print("Turn Left!!!")
+            elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:         
                 if dLeft >= dRight:
                     left4WD()
+                    print("Turn Left!!!")
                 elif dLeft < dRight:
                     right4WD()
-            else:
-                flag = 1
-
-            if dLeft < 10 and dforward > 50:
-                flag = 0
-                right4WD()
-            elif dLeft > 10 and dforward > 50:
-                flag = 1
-            
-            if dRight < 10 and dforward > 50:
-                left4WD()
-            elif dRight > 10 and dforward > 50:
-                flag = 1
-
-            if flag == 1:
-                print('flag=1, Keep moving!')
+                    print("Turn RIGHT!!!")
+            elif dforward > dSafeForward:
                 forward()
+                print('Keep moving!')
     except KeyboardInterrupt:
         print('Bye')
     finally:
