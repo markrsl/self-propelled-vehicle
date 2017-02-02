@@ -105,17 +105,15 @@ def main():
     try:
         while True:
             forward()
-            while ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO) < 50:
-                if ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO) > 30:
+            time.sleep(0.01)
+            while ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO) < 30:
+                stop()
+                dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+                dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+                if dLeft >= dRight:
                     left()
-                elif ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO) > 30:
-                    right()
                 else:
-                    stop()
-                    time.sleep(1)
-                    backward()
-                    time.sleep(3)
-                    stop()
+                    right()
     except KeyboardInterrupt:
         print('Bye')
     finally:
