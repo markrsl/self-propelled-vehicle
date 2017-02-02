@@ -8,6 +8,7 @@ import time
 import RPi.GPIO as GPIO
 
 GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
 
 ultrasound_Forward_TRIG = 11
 ultrasound_Forward_ECHO = 12
