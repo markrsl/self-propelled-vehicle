@@ -131,14 +131,20 @@ def main():
                 stop()
                 print("Here is not safe!!!")
             elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
+                stop()
+                time.sleep(0.5)
                 for i in range(31000):
                     right4WD()
                 print("Turn RIGHT!!!")
             elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
+                stop()
+                time.sleep(0.5)
                 for i in range(31000):
                     left4WD()
                 print("Turn Left!!!")
-            elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:         
+            elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:
+                stop()
+                time.sleep(0.5)         
                 if dLeft >= dRight:
                     for i in range(31000):
                         left4WD()
