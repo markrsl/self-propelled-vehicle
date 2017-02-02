@@ -31,7 +31,7 @@ def ultrasound(TRIG,ECHO):
     GPIO.output(TRIG, 1)
 #    time.sleep(0.00001)
     GPIO.output(TRIG, 0)
-#    start = time.time()
+    start = time.time()
     while GPIO.input(ECHO) == 0:
         start = time.time()
     while GPIO.input(ECHO) == 1:
