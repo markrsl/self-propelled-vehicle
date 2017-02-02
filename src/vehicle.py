@@ -127,31 +127,33 @@ dSafeForward = 50
 dSafeSide = 10
 def main():
     try:
-        while True:
-            dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-            dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-            dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
-            print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
-            
-            if dforward < dSafeForward and dLeft < dSafeSide and dRight < dSafeSide:
-                stop()
-                print("Here is not safe!!!")
-            elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
-                right4WD()
-                print("Turn RIGHT!!!")
-            elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
-                left4WD()
-                print("Turn Left!!!")
-            elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:         
-                if dLeft >= dRight:
-                    left4WD()
-                    print("Turn Left!!!")
-                elif dLeft < dRight:
-                    right4WD()
-                    print("Turn RIGHT!!!")
-            elif dforward > dSafeForward:
-                forward()
-                print('Keep moving!')
+        for i in range(10):
+            right4WD()
+#         while True:
+#             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+#             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+#             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+#             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
+#             
+#             if dforward < dSafeForward and dLeft < dSafeSide and dRight < dSafeSide:
+#                 stop()
+#                 print("Here is not safe!!!")
+#             elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
+#                 right4WD()
+#                 print("Turn RIGHT!!!")
+#             elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
+#                 left4WD()
+#                 print("Turn Left!!!")
+#             elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:         
+#                 if dLeft >= dRight:
+#                     left4WD()
+#                     print("Turn Left!!!")
+#                 elif dLeft < dRight:
+#                     right4WD()
+#                     print("Turn RIGHT!!!")
+#             elif dforward > dSafeForward:
+#                 forward()
+#                 print('Keep moving!')
     except KeyboardInterrupt:
         print('Bye')
     finally:
