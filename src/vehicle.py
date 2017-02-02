@@ -58,7 +58,15 @@ def ultrasound(TRIG, ECHO):
 
 def forward():
     GPIO.output(motor_RightFront_in1,True)
-    GPIO.output(motor_RightFront_in2, False)  
+    GPIO.output(motor_RightFront_in2, False)
+    GPIO.output(motor_LeftFront_in1,True)
+    GPIO.output(motor_LeftFront_in2, False)    
+
+def stop():
+    GPIO.output(motor_RightFront_in1,False)
+    GPIO.output(motor_RightFront_in2, False)
+    GPIO.output(motor_LeftFront_in1,False)
+    GPIO.output(motor_LeftFront_in2, False) 
 
 def main():
     try:
@@ -66,6 +74,7 @@ def main():
         ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
         ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
         ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+        stop()
     except KeyboardInterrupt:
         GPIO.cleanup()
 if __name__ == '__main__':
