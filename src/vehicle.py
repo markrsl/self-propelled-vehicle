@@ -42,8 +42,8 @@ def ultrasound(TRIG,ECHO):
 def main():
     try:
         ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-#        ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-#        ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+        ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+        ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
     except KeyboardInterrupt:
         GPIO.cleanup()
 if __name__ == '__main__':
