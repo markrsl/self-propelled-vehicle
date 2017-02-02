@@ -67,6 +67,16 @@ def forward():
     GPIO.output(motor_LeftRear_in3,True)
     GPIO.output(motor_LeftRear_in4, False)
 
+def backward():
+    GPIO.output(motor_RightFront_in1,True)
+    GPIO.output(motor_RightFront_in2, False)
+    GPIO.output(motor_RightRear_in3,True)
+    GPIO.output(motor_RightRear_in4, False)
+    GPIO.output(motor_LeftFront_in1,False)
+    GPIO.output(motor_LeftFront_in2, True)
+    GPIO.output(motor_LeftRear_in3,False)
+    GPIO.output(motor_LeftRear_in4, True)
+
 def stop():
     GPIO.output(motor_RightFront_in1,False)
     GPIO.output(motor_RightFront_in2, False)
@@ -96,11 +106,15 @@ def main():
         while True:
             forward()
             while ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO) < 50:
-                if ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO) < 40:
-                    right()
-                elif ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO) <40:
+                if ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO) > 30:
                     left()
+                elif ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO) > 30:
+                    right()
                 else:
+                    stop()
+                    time.sleep(1)
+                    backward()
+                    time.sleep(3)
                     stop()
     except KeyboardInterrupt:
         print('Bye')
