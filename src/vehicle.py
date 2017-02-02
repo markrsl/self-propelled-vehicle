@@ -55,6 +55,7 @@ def ultrasound(TRIG, ECHO):
         stop = time.time()
     distance = (stop - start) * 34000 / 2
     print(distance)
+    return distance
 
 def forward():
     GPIO.output(motor_RightFront_in1,False)
@@ -92,14 +93,19 @@ def right():
 
 def main():
     try:
-        #forward()
-        right()
-        ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-        ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-        ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
-        time.sleep(3)
-        stop()
+        while True:
+            forward()
+            while ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO) < 50:
+                if ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO) < 40:
+                    right()
+                elif ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO) <40:
+                    left()
+                else:
+                    stop()
     except KeyboardInterrupt:
+        print('Bye')
+    finally:
+        stop()
         GPIO.cleanup()
 if __name__ == '__main__':
     main()
