@@ -26,7 +26,7 @@ motor_LeftFront_in1 = 32
 motor_LeftFront_in2 = 36
 motor_LeftRear_in3 = 38
 motor_LeftRear_in4 = 40
-
+# setup GPIO
 GPIO.setup(ultrasound_Forward_TRIG, GPIO.OUT)
 GPIO.setup(ultrasound_Forward_ECHO, GPIO.IN)
 GPIO.setup(ultrasound_Left_TRIG, GPIO.OUT)
@@ -54,7 +54,6 @@ def ultrasound(TRIG, ECHO):
     while GPIO.input(ECHO) == 1:
         stop = time.time()
     distance = (stop - start) * 34000 / 2
-    print(distance)
     return distance
 
 def forward():
@@ -105,15 +104,17 @@ def main():
     try:
         while True:
             forward()
-            time.sleep(0.01)
-            while ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO) < 30:
+            dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+            while dforward < 30:
                 stop()
                 dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
                 dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+                
                 if dLeft >= dRight:
                     left()
-                else:
+                elif dLeft < dRight:
                     right()
+                print('forward:{} \t left:{} \t right:{}'.format(dforward,dLeft,dRight))
     except KeyboardInterrupt:
         print('Bye')
     finally:
