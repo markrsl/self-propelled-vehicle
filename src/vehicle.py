@@ -131,8 +131,6 @@ def main():
             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
             if dforward < 30:
                 flag = 0
-                if dforward <10:
-                    backward()
                 if dLeft >= dRight:
                     left4WD()
                 elif dLeft < dRight:
