@@ -58,8 +58,7 @@ def ultrasound(TRIG, ECHO):
 
 def forward():
     GPIO.output(motor_RightFront_in1,True)
-    GPIO.output(motor_LeftFront_in2, False)
-    
+    GPIO.output(motor_RightFront_in2, False)  
 
 def main():
     try:
