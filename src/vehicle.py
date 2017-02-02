@@ -1,9 +1,7 @@
 '''
 Created on 2017/2/2
-
 @author: Mark Hsu
 '''
-
 import time
 import RPi.GPIO as GPIO
 
@@ -57,74 +55,70 @@ def ultrasound(TRIG, ECHO):
     return distance
 
 def forward():
-    GPIO.output(motor_RightFront_in1,False)
+    GPIO.output(motor_RightFront_in1, False)
     GPIO.output(motor_RightFront_in2, True)
-    GPIO.output(motor_RightRear_in3,False)
+    GPIO.output(motor_RightRear_in3, False)
     GPIO.output(motor_RightRear_in4, True)
-    GPIO.output(motor_LeftFront_in1,True)
+    GPIO.output(motor_LeftFront_in1, True)
     GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3,True)
+    GPIO.output(motor_LeftRear_in3, True)
     GPIO.output(motor_LeftRear_in4, False)
 
 def backward():
     stop()
-    time.sleep(1)
-    GPIO.output(motor_RightFront_in1,True)
+    GPIO.output(motor_RightFront_in1, True)
     GPIO.output(motor_RightFront_in2, False)
-    GPIO.output(motor_RightRear_in3,True)
+    GPIO.output(motor_RightRear_in3, True)
     GPIO.output(motor_RightRear_in4, False)
-    GPIO.output(motor_LeftFront_in1,False)
+    GPIO.output(motor_LeftFront_in1, False)
     GPIO.output(motor_LeftFront_in2, True)
-    GPIO.output(motor_LeftRear_in3,False)
+    GPIO.output(motor_LeftRear_in3, False)
     GPIO.output(motor_LeftRear_in4, True)
 
 def stop():
-    GPIO.output(motor_RightFront_in1,False)
+    GPIO.output(motor_RightFront_in1, False)
     GPIO.output(motor_RightFront_in2, False)
-    GPIO.output(motor_RightRear_in3,False)
+    GPIO.output(motor_RightRear_in3, False)
     GPIO.output(motor_RightRear_in4, False)
-    GPIO.output(motor_LeftFront_in1,False)
+    GPIO.output(motor_LeftFront_in1, False)
     GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3,False)
+    GPIO.output(motor_LeftRear_in3, False)
     GPIO.output(motor_LeftRear_in4, False)
 
 def left():
     stop()
-    time.sleep(0.5)
-    GPIO.output(motor_RightFront_in1,False)
+    GPIO.output(motor_RightFront_in1, False)
     GPIO.output(motor_RightFront_in2, True)
-    GPIO.output(motor_RightRear_in3,False)
+    GPIO.output(motor_RightRear_in3, False)
     GPIO.output(motor_RightRear_in4, True)
 
 def right():
     stop()
-    time.sleep(0.5)
-    GPIO.output(motor_LeftFront_in1,True)
+    GPIO.output(motor_LeftFront_in1, True)
     GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3,True)
+    GPIO.output(motor_LeftRear_in3, True)
     GPIO.output(motor_LeftRear_in4, False)
 
 def main():
-    flag=1
     try:
         while True:
-            if flag==1:
-                forward()
-
             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+            dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+            dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+            print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
             if dforward < 50:
-                flag=0
-                stop()
-                dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-                dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
-                
+                flag = 0
                 if dLeft >= dRight:
                     left()
                 elif dLeft < dRight:
                     right()
-                print('forward:{} \t left:{} \t right:{}'.format(dforward,dLeft,dRight))
+                else:
+                    print('seriously????')
             else:
-                flag=1
+                flag = 1
+                print('flag=1, Keep moving!')
+            if flag == 1:
+                forward()
     except KeyboardInterrupt:
         print('Bye')
     finally:
