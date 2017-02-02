@@ -105,7 +105,7 @@ def main():
         while True:
             forward()
             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-            while dforward < 30:
+            if dforward < 30:
                 stop()
                 dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
                 dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
