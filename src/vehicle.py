@@ -25,8 +25,8 @@ GPIO.setup(ultrasound_Right_TRIG, GPIO.OUT)
 GPIO.setup(ultrasound_Right_ECHO, GPIO.IN)
 
 def ultrasound(TRIG,ECHO):
-#    GPIO.output(TRIG, 0)
-#    time.sleep(0.01)
+    GPIO.output(TRIG, 0)
+    time.sleep(0.01)
 
     GPIO.output(TRIG, 1)
 #    time.sleep(0.00001)
