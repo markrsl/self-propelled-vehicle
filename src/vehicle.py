@@ -72,16 +72,16 @@ class vehicle():
         GPIO.output(cls.motor_LeftFront_in2, True)
         GPIO.output(cls.motor_LeftRear_in3, False)
         GPIO.output(cls.motor_LeftRear_in4, True)
-    @staticmethod
-    def stop(cls):
-        GPIO.output(cls.motor_RightFront_in1, False)
-        GPIO.output(cls.motor_RightFront_in2, False)
-        GPIO.output(cls.motor_RightRear_in3, False)
-        GPIO.output(cls.motor_RightRear_in4, False)
-        GPIO.output(cls.motor_LeftFront_in1, False)
-        GPIO.output(cls.motor_LeftFront_in2, False)
-        GPIO.output(cls.motor_LeftRear_in3, False)
-        GPIO.output(cls.motor_LeftRear_in4, False)
+
+    def stop(self):
+        GPIO.output(self.motor_RightFront_in1, False)
+        GPIO.output(self.motor_RightFront_in2, False)
+        GPIO.output(self.motor_RightRear_in3, False)
+        GPIO.output(self.motor_RightRear_in4, False)
+        GPIO.output(self.motor_LeftFront_in1, False)
+        GPIO.output(self.motor_LeftFront_in2, False)
+        GPIO.output(self.motor_LeftRear_in3, False)
+        GPIO.output(self.motor_LeftRear_in4, False)
     @staticmethod
     def left(cls):
         GPIO.output(cls.motor_RightFront_in1, False)
