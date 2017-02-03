@@ -1,7 +1,3 @@
-'''
-Created on 2017/2/2
-@author: Mark Hsu
-'''
 import time
 from vehicle import vehicle
 

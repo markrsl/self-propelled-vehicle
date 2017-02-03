@@ -1,8 +1,4 @@
-'''
-Created on 2017¦~2¤ë3¤é
 
-@author: Administrator
-'''
 import RPi.GPIO as GPIO
 import time
 class vehicle():
