@@ -2,7 +2,6 @@
 # bring in the libraries
 from flup.server.fcgi import WSGIServer
 import sys, urlparse
-import main
 
 # all of our code now lives within the app() function which is called for each http request we receive
 def app(environ, start_response):
@@ -16,8 +15,8 @@ def app(environ, start_response):
     # if there's a url variable named 'q'
     if "q" in i:
         if i["q"][0] == "run":
-            main.run(True)
+            pass
         elif i["q"][0] == "stop":
-            main.run(False)
+            pass
 # by default, Flup works out how to bind to the web server for us, so just call it with our app() function and let it get on with it
 WSGIServer(app).run()
