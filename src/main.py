@@ -4,7 +4,6 @@ Created on 2017/2/2
 '''
 import time
 import RPi.GPIO as GPIO
-from curses.ascii import DLE
 
 # Physical numbering
 GPIO.setmode(GPIO.BOARD)
