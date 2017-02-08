@@ -118,8 +118,6 @@ dSafeForward = 50
 dSafeSide = 10
 def main():
     try:
-#         for i in range(31000):
-#             right4WD()
         while True:
             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
