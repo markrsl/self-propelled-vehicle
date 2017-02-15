@@ -39,6 +39,22 @@ GPIO.setup(motor_LeftFront_in1, GPIO.OUT)
 GPIO.setup(motor_LeftFront_in2, GPIO.OUT)
 GPIO.setup(motor_LeftRear_in3, GPIO.OUT)
 GPIO.setup(motor_LeftRear_in4, GPIO.OUT)
+pwmRF = GPIO.PWM(motor_RightFront_in2, 500)
+pwmRR = GPIO.PWM(motor_RightRear_in4, 500)
+pwmLF = GPIO.PWM(motor_LeftFront_in1, 500)
+pwmLR = GPIO.PWM(motor_LeftRear_in3, 500)
+pwmRF_Reverse = GPIO.PWM(motor_RightFront_in1, 500)
+pwmRR_Reverse = GPIO.PWM(motor_RightRear_in3, 500)
+pwmLF_Reverse = GPIO.PWM(motor_LeftFront_in2, 500)
+pwmLR_Reverse = GPIO.PWM(motor_LeftRear_in4, 500)
+pwmRF.start(0)
+pwmRR.start(0)
+pwmLF.start(0)
+pwmLR.start(0)
+pwmRF_Reverse.start(0)
+pwmRR_Reverse.start(0)
+pwmLF_Reverse.start(0)
+pwmLR_Reverse.start(0)
 
 def ultrasound(TRIG, ECHO):
     GPIO.output(TRIG, 0)
@@ -54,109 +70,96 @@ def ultrasound(TRIG, ECHO):
     distance = (stop - start) * 34000 / 2
     return distance
 
-def forward():
-    GPIO.output(motor_RightFront_in1, False)
-    GPIO.output(motor_RightFront_in2, True)
-    GPIO.output(motor_RightRear_in3, False)
-    GPIO.output(motor_RightRear_in4, True)
-    GPIO.output(motor_LeftFront_in1, True)
-    GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3, True)
-    GPIO.output(motor_LeftRear_in4, False)
+def drive(duty):
+    pwmLF.ChangeDutyCycle(duty)
+    pwmLR.ChangeDutyCycle(duty)
+    pwmRF.ChangeDutyCycle(duty)
+    pwmRR.ChangeDutyCycle(duty)
 
-def backward():
-    GPIO.output(motor_RightFront_in1, True)
-    GPIO.output(motor_RightFront_in2, False)
-    GPIO.output(motor_RightRear_in3, True)
-    GPIO.output(motor_RightRear_in4, False)
-    GPIO.output(motor_LeftFront_in1, False)
-    GPIO.output(motor_LeftFront_in2, True)
-    GPIO.output(motor_LeftRear_in3, False)
-    GPIO.output(motor_LeftRear_in4, True)
-
-def stop():
-    GPIO.output(motor_RightFront_in1, False)
-    GPIO.output(motor_RightFront_in2, False)
-    GPIO.output(motor_RightRear_in3, False)
-    GPIO.output(motor_RightRear_in4, False)
-    GPIO.output(motor_LeftFront_in1, False)
-    GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3, False)
-    GPIO.output(motor_LeftRear_in4, False)
-
-def left():
-    GPIO.output(motor_RightFront_in1, False)
-    GPIO.output(motor_RightFront_in2, True)
-    GPIO.output(motor_RightRear_in3, False)
-    GPIO.output(motor_RightRear_in4, True)
-
-def right():
-    GPIO.output(motor_LeftFront_in1, True)
-    GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3, True)
-    GPIO.output(motor_LeftRear_in4, False)
-def left4WD():
-    GPIO.output(motor_RightFront_in1, False)
-    GPIO.output(motor_RightFront_in2, True)
-    GPIO.output(motor_RightRear_in3, False)
-    GPIO.output(motor_RightRear_in4, True)
-    GPIO.output(motor_LeftFront_in1, False)
-    GPIO.output(motor_LeftFront_in2, True)
-    GPIO.output(motor_LeftRear_in3, False)
-    GPIO.output(motor_LeftRear_in4, True)
-def right4WD():
-    GPIO.output(motor_RightFront_in1, True)
-    GPIO.output(motor_RightFront_in2, False)
-    GPIO.output(motor_RightRear_in3, True)
-    GPIO.output(motor_RightRear_in4, False)
-    GPIO.output(motor_LeftFront_in1, True)
-    GPIO.output(motor_LeftFront_in2, False)
-    GPIO.output(motor_LeftRear_in3, True)
-    GPIO.output(motor_LeftRear_in4, False)
+def reverse(duty):
+    pwmLF_Reverse.ChangeDutyCycle(duty)
+    pwmLR_Reverse.ChangeDutyCycle(duty)
+    pwmRF_Reverse.ChangeDutyCycle(duty)
+    pwmRR_Reverse.ChangeDutyCycle(duty)
+    
+def right(duty):
+    pwmRF.ChangeDutyCycle(duty)
+    pwmRR.ChangeDutyCycle(duty)
+    
+def left(duty):
+    pwmLF.ChangeDutyCycle(duty)
+    pwmLR.ChangeDutyCycle(duty)
+    
+def parking():
+    drive(0)
+    reverse(0)
     
 dSafeForward = 50
 dSafeSide = 10
+
 def main():
     try:
         while True:
-            dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
-            dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
-            dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
-            print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
-             
-            if dforward < dSafeForward and dLeft < dSafeSide and dRight < dSafeSide:
-                stop()
-                print("Here is not safe!!!")
-            elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
-                stop()
-                time.sleep(0.5)
-                for i in range(31000):
-                    right4WD()
-                print("Turn RIGHT!!!")
-            elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
-                stop()
-                time.sleep(0.5)
-                for i in range(31000):
-                    left4WD()
-                print("Turn Left!!!")
-            elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:
-                stop()
-                time.sleep(0.5)         
-                if dLeft >= dRight:
-                    for i in range(31000):
-                        left4WD()
-                    print("Turn Left!!!")
-                elif dLeft < dRight:
-                    for i in range(31000):
-                        right4WD()
-                    print("Turn RIGHT!!!")
-            elif dforward > dSafeForward:
-                forward()
-                print('Keep moving!')
+            try:
+                duty = int(input("Enter Duty -100 to 100 : "))
+                if duty > 100 or duty < -100:
+                    duty = None 
+            except Exception:
+                print("Value error")
+            
+            if duty > 0:
+                drive(duty)
+            elif duty == 0:
+                parking()
+            elif duty < 0:
+                reverse(abs(duty))
+            
+            
+#             dforward = ultrasound(ultrasound_Forward_TRIG, ultrasound_Forward_ECHO)
+#             dLeft = ultrasound(ultrasound_Left_TRIG, ultrasound_Left_ECHO)
+#             dRight = ultrasound(ultrasound_Right_TRIG, ultrasound_Right_ECHO)
+#             print('forward:{} \t left:{} \t right:{}'.format(dforward, dLeft, dRight))
+#              
+#             if dforward < dSafeForward and dLeft < dSafeSide and dRight < dSafeSide:
+#                 stop()
+#                 print("Here is not safe!!!")
+#             elif dforward < dSafeForward and dLeft < dSafeSide and dRight > dSafeSide:
+#                 stop()
+#                 time.sleep(0.5)
+#                 for i in range(31000):
+#                     right4WD()
+#                 print("Turn RIGHT!!!")
+#             elif dforward < dSafeForward and dLeft > dSafeSide and dRight < dSafeSide:
+#                 stop()
+#                 time.sleep(0.5)
+#                 for i in range(31000):
+#                     left4WD()
+#                 print("Turn Left!!!")
+#             elif dforward < dSafeForward and dLeft > dSafeSide and dRight > dSafeSide:
+#                 stop()
+#                 time.sleep(0.5)         
+#                 if dLeft >= dRight:
+#                     for i in range(31000):
+#                         left4WD()
+#                     print("Turn Left!!!")
+#                 elif dLeft < dRight:
+#                     for i in range(31000):
+#                         right4WD()
+#                     print("Turn RIGHT!!!")
+#             elif dforward > dSafeForward:
+#                 forward()
+#                 print('Keep moving!')
     except KeyboardInterrupt:
         print('Bye')
     finally:
-        stop()
+        pwmRF.stop()
+        pwmRR.stop()
+        pwmLF.stop()
+        pwmLR.stop()
+        pwmRF_Reverse.stop()
+        pwmRR_Reverse.stop()
+        pwmLF_Reverse.stop()
+        pwmLR_Reverse.stop()
         GPIO.cleanup()
 if __name__ == '__main__':
     main()
