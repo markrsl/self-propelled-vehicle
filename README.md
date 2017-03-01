@@ -1,2 +1,2 @@
 # Self-propelled_Vehicle
-Raspberry Pi 
+Raspberry Pi and EV3
